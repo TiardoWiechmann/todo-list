@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url("../images/taj-mahal.jpg");
+    background-size: cover;
+}
+
+header {
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 5rem;
+}
+
+.tabs button {
+    font-size: 2rem;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: rgb(129, 185, 231);
+}
+
+button:hover {
+    background-color: rgb(129, 161, 231);
+}
+
+#content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    background-color: rgb(255, 123, 0, 0.8);
+    width: 800px;
+    border-radius: 100px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+/* home */
+img {
+    display: block;
+    margin: auto;
+}
+
+/* menu */
+.meal-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.starters,
+.main-dishes,
+.desserts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.meals {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 20px;
+}
+
+
+/* contact */
+.infos {
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+ul {
+    list-style-type: none;
+}
+
+h1 {
+    font-size: 3rem;
+    text-decoration: underline;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1rem;
+}
