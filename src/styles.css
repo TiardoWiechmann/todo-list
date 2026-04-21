@@ -3,3 +3,73 @@
     box-sizing: border-box;
 }
 
+body {
+    height: 100vh;
+
+}
+
+#container {
+    height: 100%;
+    margin: 0 100px;
+    background-color: rgb(199, 198, 198);
+    display: grid;
+    grid-template-rows: 100px 1fr;   
+}
+
+header {
+    background-color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+#content {
+    padding: 40px 60px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.project {
+    display: grid;
+    grid-template-rows: 3rem 1fr;
+    background-color: seashell;
+    border-radius: 1rem;
+    height: min-content;
+    
+}
+
+.project-name {
+    background-color: antiquewhite;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px 10px;
+    width: 300px;
+}
+
+.todo>div {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+textarea,
+input,
+select {
+    width: 60%;
+}
