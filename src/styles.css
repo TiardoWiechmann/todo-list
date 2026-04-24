@@ -67,17 +67,27 @@ h1 {
 
 .project {
     display: grid;
-    grid-template-rows: 3rem 1fr;
+    grid-template-rows: 80px 1fr;
     background-color: rgb(0, 162, 255);
     padding: 0 40px 40px;
     height: 100%;
 }
 
-.project-name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.add-task {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: aqua;
+}
 
+.add-task:hover {
+    transform: scale(1.05);
+}
+
+.project-heading {
+    display: flex;
+    align-items: center;
+    gap: 80px;
 }
 
 .todos {
@@ -108,4 +118,15 @@ textarea,
 input,
 select {
     width: 60%;
+}
+
+.del-todo {
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: rgba(255, 72, 0, 0.767);
+}
+
+.del-todo:hover {
+    background-color: rgba(255, 0, 0, 0.61);
 }

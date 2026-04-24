@@ -21,7 +21,10 @@
                 </div>
             </div>
             <div class="project">
-                <div class="project-name"><h2>Project Name</h2></div>
+                <div class="project-heading">
+                    <button class="add-task">Add Task</button>
+                    <h2>Project Name</h2>
+                </div>
                 <div class="todos">
                     <form class="todo">
                         <div class="title-div">
@@ -45,52 +48,7 @@
                                 <option value="high" selected>High (red)</option>
                             </select>
                         </div>
-                    </form>
-                    <form class="todo">
-                        <div class="title-div">
-                            <label for="title">Title: </label>
-                            <input type="text" value="title" id="title" maxlength="20">
-                        </div>
-                        <div class="description-div">
-                            <label for="description">Description: </label>
-                            <textarea name="description" id="description" rows="4" maxlength="150">blablabla
-                            </textarea>
-                        </div>
-                        <div class="due-date-div">
-                            <label for="due-date">Due date: </label>
-                            <input type="date" id="due-date" min="2017-04-01">
-                        </div>
-                        <div class="priority-div">
-                            <label for="priority">Priority: </label>
-                            <select id="priority">
-                                <option value="low">Low (green)</option>
-                                <option value="medium">Medium (yellow)</option>
-                                <option value="high" selected>High (red)</option>
-                            </select>
-                        </div>
-                    </form>
-                    <form class="todo">
-                        <div class="title-div">
-                            <label for="title">Title: </label>
-                            <input type="text" value="title" id="title" maxlength="20">
-                        </div>
-                        <div class="description-div">
-                            <label for="description">Description: </label>
-                            <textarea name="description" id="description" rows="4" maxlength="150">blablabla
-                            </textarea>
-                        </div>
-                        <div class="due-date-div">
-                            <label for="due-date">Due date: </label>
-                            <input type="date" id="due-date" min="2017-04-01">
-                        </div>
-                        <div class="priority-div">
-                            <label for="priority">Priority: </label>
-                            <select id="priority">
-                                <option value="low">Low (green)</option>
-                                <option value="medium">Medium (yellow)</option>
-                                <option value="high" selected>High (red)</option>
-                            </select>
-                        </div>
+                        <button class="del-todo" type="button">Delete</button>
                     </form>
                 </div>
             </div>
