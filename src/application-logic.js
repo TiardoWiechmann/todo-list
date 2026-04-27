@@ -37,8 +37,6 @@ export function appLogic() {
         return project;
     }
 
-
-
     return { add, deleteProject, getProject, getAllProjects, createDefaultProject };
 }
 

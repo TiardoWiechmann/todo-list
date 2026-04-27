@@ -10,10 +10,79 @@ export default function displayContent() {
     newProject();
     addTask();
 
+    // At the beginning exists a default project
     function displayDefaultProject() {
         const defaultProject = app.createDefaultProject();
         createProject(defaultProject);
         currentProject = defaultProject;
+    }
+
+
+    // New project gets created when create-project button is clicked
+    function newProject() {
+        const createProjectBtn = document.querySelector(".create-project-btn");
+        const dialogExit = document.querySelector(".new-project button");
+        const dialog = document.querySelector(".new-project")
+
+        createProjectBtn.addEventListener("click", () => {
+            dialog.showModal();
+        });
+
+        dialogExit.addEventListener("click", () => {
+            const projectName = document.getElementById("pname").value;
+            const project = new Project(projectName);
+            createProject(project);
+            dialog.close();
+        });
+    }
+
+    // Add task to current project
+    function addTask() {
+        const addTaskBtn = document.querySelector(".add-task");
+        const dialog = document.querySelector(".new-task")
+
+        addTaskBtn.addEventListener("click", () => {
+            dialog.showModal();
+        });
+
+        const dialogCloseBtn = document.querySelector(".new-task button");
+        dialogCloseBtn.addEventListener("click", () => {
+            createTask();
+            displayProjectSite(currentProject);
+            dialog.close();
+        });
+    }
+
+
+    function createProject(project){
+        app.add(project);
+        displayAllProjectsInSidebar();
+        currentProject = project;
+        displayProjectSite();
+    }
+
+
+    function displayAllProjectsInSidebar() {
+        const projects = app.getAllProjects();
+        const projectsContainer = document.querySelector(".projects-container");
+        projectsContainer.textContent = ""; 
+
+        projects.forEach(project => {
+            const projectBtn = document.createElement("button");
+            projectBtn.dataset.name = project.name;
+            projectBtn.textContent = project.name;
+            projectsContainer.appendChild(projectBtn);
+        })
+
+        openProject();
+    }
+
+
+    function displayProjectSite() {
+        const div = document.querySelector(".project");
+        const heading = document.querySelector(".project h2");
+        heading.textContent = currentProject.name;
+        displayTasks();
     }
 
 
@@ -41,41 +110,6 @@ export default function displayContent() {
     }
 
 
-    // New project gets created when create-project button is clicked
-    function newProject() {
-        const createProjectBtn = document.querySelector(".create-project-btn");
-        const dialogBtn = document.querySelector(".new-project button");
-        const dialog = document.querySelector(".new-project")
-        createProjectBtn.addEventListener("click", () => {
-            // Create new Project by opening dialog with name input
-            dialog.showModal();
-        });
-
-        dialogBtn.addEventListener("click", () => {
-            const projectName = document.getElementById("pname").value;
-            const project = new Project(projectName);
-            createProject(project);
-            dialog.close();
-        });
-    }
-
-
-    function createProject(project){
-        app.add(project);
-        displayAllProjectsInSidebar();
-        currentProject = project;
-        displayProjectSite();
-    }
-
-
-    function displayProjectSite() {
-        const div = document.querySelector(".project");
-        const heading = document.querySelector(".project h2");
-        heading.textContent = currentProject.name;
-        displayTasks();
-    }
-
-
     function displayTasks() {
         const todos = currentProject.todos;
         const todosContainer = document.querySelector(".todos");
@@ -96,40 +130,6 @@ export default function displayContent() {
         })
     }
 
-    
-    function displayAllProjectsInSidebar() {
-        const projects = app.getAllProjects();
-        console.log(projects);
-        const projectsDiv = document.querySelector(".projects-container");
-        projectsDiv.textContent = ""; 
-
-        projects.forEach(project => {
-            const projectBtn = document.createElement("button");
-            projectBtn.dataset.name = project.name;
-            projectBtn.textContent = project.name;
-            projectsDiv.appendChild(projectBtn);
-        })
-        console.log("openProject");
-        openProject();
-    }
-
-
-    function addTask() {
-        // Add todo to current project
-        const addTaskBtn = document.querySelector(".add-task");
-        const dialog = document.querySelector(".new-task")
-        addTaskBtn.addEventListener("click", () => {
-            // Open Dialog to add a task
-            // Dialog includes every input of todo
-            dialog.showModal();
-        });
-        const dialogBtn = document.querySelector(".new-task button");
-        dialogBtn.addEventListener("click", () => {
-            createTask();
-            displayProjectSite(currentProject);
-            dialog.close();
-        });
-    }
 
     function createTask() { 
         const propertyNames = Todo.getPropertyNames();
@@ -151,7 +151,6 @@ export default function displayContent() {
                  
         let todo = new Todo(properties.title, properties.description, properties.dueDate , properties.priority);
         currentProject.addTodo(todo);
-        // console.log(currentProject);
     }
 
 
