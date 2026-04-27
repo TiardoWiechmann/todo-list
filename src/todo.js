@@ -45,7 +45,7 @@ export default class Todo {
         this.#priority = priority;
     }
 
-    static getProperties(){
+    static getPropertyNames(){
         return ["title", "description", "dueDate", "priority"];
     }
 }

@@ -7,7 +7,6 @@ export default function displayContent() {
     let currentProject;
     const app = appLogic(); 
     displayDefaultProject();
-    openProject();
     newProject();
     addTask();
 
@@ -17,14 +16,28 @@ export default function displayContent() {
         currentProject = defaultProject;
     }
 
+
     // When project is clicked the project should be displayed
     function openProject(){
-        const projectBtns = document.querySelectorAll("projects-container button");
+        const projectBtns = document.querySelectorAll(".projects-container button");
         projectBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
-                displayProjectSite(btn.textContent);
+                currentProject = getProjectByName(btn.textContent);
+                console.log(currentProject);
+                console.log(btn.textContent)
+                displayProjectSite();
             });
         });
+    }
+
+
+    function getProjectByName(projectName) {
+        const projects = app.getAllProjects();
+        for (let project of projects) {
+            if (project.name === projectName){
+                return project;
+            }
+        }
     }
 
 
@@ -65,32 +78,28 @@ export default function displayContent() {
 
     function displayTasks() {
         const todos = currentProject.todos;
-        const todosDiv = document.querySelector(".todos");
+        const todosContainer = document.querySelector(".todos");
+        todosContainer.textContent = "";
+        const propertyNames = Todo.getPropertyNames()
 
         todos.forEach(todo => {
             const todoDiv = document.createElement("div");
-
-            const title = document.createElement("div");
-            title.textContent = todo.title;
-            const description = document.createElement("div");
-            description.textContent = todo.description;
-            const dueDate = document.createElement("div");
-            dueDate.textContent = todo.dueDate;
-            const priority = document.createElement("div");
-            priority.textContent = todo.priority;
             
-            const content = [title, description, dueDate, priority];
-            content.forEach(item => {
-                todoDiv.appendChild(item);
-            })
+            for(let prop of propertyNames) {
+                const propText = document.createElement("div");
+                propText.textContent = makeTitle(prop) + ":    " + todo[prop];
+                todoDiv.appendChild(propText);
+            }
+            
             console.log(todoDiv);
-            todosDiv.appendChild(todoDiv);
+            todosContainer.appendChild(todoDiv);
         })
     }
 
     
     function displayAllProjectsInSidebar() {
         const projects = app.getAllProjects();
+        console.log(projects);
         const projectsDiv = document.querySelector(".projects-container");
         projectsDiv.textContent = ""; 
 
@@ -100,7 +109,10 @@ export default function displayContent() {
             projectBtn.textContent = project.name;
             projectsDiv.appendChild(projectBtn);
         })
+        console.log("openProject");
+        openProject();
     }
+
 
     function addTask() {
         // Add todo to current project
@@ -120,7 +132,7 @@ export default function displayContent() {
     }
 
     function createTask() { 
-        const propertyNames = Todo.getProperties();
+        const propertyNames = Todo.getPropertyNames();
 
         let properties = {};
         for (let prop of propertyNames) {
@@ -140,6 +152,11 @@ export default function displayContent() {
         let todo = new Todo(properties.title, properties.description, properties.dueDate , properties.priority);
         currentProject.addTodo(todo);
         // console.log(currentProject);
+    }
+
+
+    function makeTitle(word){
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
 }
