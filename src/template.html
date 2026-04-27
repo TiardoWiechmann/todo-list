@@ -12,21 +12,54 @@
         </header>
         <div id="content">
             <div class="sidebar">
-                <button class="project-btn">Create Project</button>
+                <button class="create-project-btn">Create Project</button>
+                <dialog closedby="any" class="new-project">
+                    <form>
+                        <div class="project-title">
+                            <label for="pname">Project Name: </label>
+                            <input type="text" id=pname value="Software Project">
+                        </div>
+                        <button type="button">Create Project</button>
+                    </form>
+                </dialog>
                 <h2>Projects</h2>
-                <div class="project-name-btn">
-                    <button>Project1</button>
-                    <button>Project2</button>
-                    <button>Project3</button>
+                <div class="projects-container">
+                    <!-- <button>Project Name</button> -->
                 </div>
             </div>
             <div class="project">
                 <div class="project-heading">
                     <button class="add-task">Add Task</button>
                     <h2>Project Name</h2>
+                    <dialog closedby="any" class="new-task">
+                        <form>
+                            <div class="title-div">
+                                <label for="title">Title: </label>
+                                <input type="text" value="title" id="title" maxlength="20">
+                            </div>
+                            <div class="description-div">
+                                <label for="description">Description: </label>
+                                <textarea name="description" id="description" rows="4" maxlength="150">blablabla
+                                </textarea>
+                            </div>
+                            <div class="due-date-div">
+                                <label for="dueDate">Due date: </label>
+                                <input type="date" id="dueDate" min="2017-04-01">
+                            </div>
+                            <div class="priority-div">
+                                <label for="priority">Priority: </label>
+                                <select id="priority">
+                                    <option value="low">Low (green)</option>
+                                    <option value="medium">Medium (yellow)</option>
+                                    <option value="high" selected>High (red)</option>
+                                </select>
+                            </div>
+                            <button type="button">Add Task</button>
+                        </form>
+                    </dialog>
                 </div>
                 <div class="todos">
-                    <form class="todo">
+                    <!-- <form class="todo">
                         <div class="title-div">
                             <label for="title">Title: </label>
                             <input type="text" value="title" id="title" maxlength="20">
@@ -49,7 +82,7 @@
                             </select>
                         </div>
                         <button class="del-todo" type="button">Delete</button>
-                    </form>
+                    </form> -->
                 </div>
             </div>
             </div>

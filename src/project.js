@@ -5,7 +5,7 @@ export default class Project {
     #name;
     #todos;
 
-    constructor(name, todos) {
+    constructor(name, todos=[]) {
         this.#name = name;
         this.#todos = todos;
     }

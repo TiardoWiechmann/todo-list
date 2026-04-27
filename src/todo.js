@@ -44,6 +44,10 @@ export default class Todo {
     set priority(priority) {
         this.#priority = priority;
     }
+
+    static getProperties(){
+        return ["title", "description", "dueDate", "priority"];
+    }
 }
 
 export function testTodo() {
