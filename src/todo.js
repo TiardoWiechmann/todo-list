@@ -1,10 +1,12 @@
 export default class Todo {
+    #id;
     #title; 
     #description;
     #dueDate;
     #priority;
 
     constructor(title, description, dueDate, priority) {
+        this.#id = crypto.randomUUID();
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
@@ -13,6 +15,12 @@ export default class Todo {
 
 
     // Todo: Add errorhandling
+
+
+    get id() {
+        return this.#id;
+    }
+
     get title() {
         return this.#title;
     }

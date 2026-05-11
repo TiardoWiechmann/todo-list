@@ -27,10 +27,10 @@ export default class Project {
         this.#todos.push(todo);
     }
 
-    removeTodo(todo) {
+    removeTodo(id) {
         let copy = [];
         this.#todos.forEach(item => {
-            if (item.title === todo.title) {
+            if (item.id === id) {
                 return;
             }
             copy.push(item);

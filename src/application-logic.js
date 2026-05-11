@@ -20,9 +20,9 @@ export function appLogic() {
         projects = copy;
     }
 
-    function getProject(pTitle) {
-        project.forEach(project => {
-            if (project.title === pTitle) {
+    function getProjectById(id) {
+        projects.forEach(project => {
+            if (project.id === id) {
                 return project;
             }
         });
@@ -37,10 +37,16 @@ export function appLogic() {
         return project;
     }
 
-    return { add, deleteProject, getProject, getAllProjects, createDefaultProject };
+    function updateProjects(updatedProject) {
+        projects.forEach(project => {
+            if (project.id === updatedProject.id) {
+                project = updatedProject;
+            }
+        });
+    }
+
+    return { add, deleteProject, getProjectById, getAllProjects, createDefaultProject, updateProjects };
 }
-
-
 
 
 export default function test() {

@@ -1,6 +1,8 @@
 import Project from "./project.js";
 import { appLogic } from "./application-logic.js";
 import Todo from "./todo.js";
+import deleteImage from "./images/delete.svg";
+import editImage from "./images/file-edit.svg";
 
 
 export default function displayContent() {
@@ -48,7 +50,7 @@ export default function displayContent() {
         const dialogCloseBtn = document.querySelector(".new-task button");
         dialogCloseBtn.addEventListener("click", () => {
             createTask();
-            displayProjectSite(currentProject);
+            displayProjectSite();
             dialog.close();
         });
     }
@@ -118,16 +120,24 @@ export default function displayContent() {
 
         todos.forEach(todo => {
             const todoDiv = document.createElement("div");
+            todoDiv.className = "todo";
             
             for(let prop of propertyNames) {
-                const propText = document.createElement("div");
-                propText.textContent = makeTitle(prop) + ":    " + todo[prop];
-                todoDiv.appendChild(propText);
+                if(prop !== "title"){
+                    const propText = document.createElement("div");
+                    propText.textContent = makeTitle(prop) + ":    " + todo[prop];
+                    todoDiv.appendChild(propText);
+                }
+                else {
+                    const title = todo[prop];
+                    const className = "todo-title";
+                    const taskHeading = displayTaskHeading(todo, className)
+                    todoDiv.appendChild(taskHeading)
+                }
             }
-            
-            console.log(todoDiv);
             todosContainer.appendChild(todoDiv);
-        })
+            bindTaskBtns(todo);
+        });
     }
 
 
@@ -151,6 +161,62 @@ export default function displayContent() {
                  
         let todo = new Todo(properties.title, properties.description, properties.dueDate , properties.priority);
         currentProject.addTodo(todo);
+    }
+
+    
+    function displayTaskHeading(todo, className) {
+        const container = document.createElement("div");
+        container.className = "todo-heading";
+        const heading = document.createElement("div");
+        heading.textContent = todo.title;
+        heading.className = className;
+        const btns = generateTaskBtns(todo);
+        container.appendChild(heading);
+        container.appendChild(btns);
+        return container;
+    }
+
+
+    function generateTaskBtns(todo) {
+        const btnsDiv = document.createElement("div");
+        btnsDiv.className = "todo-btns";
+        const editBtn = createImageBtn(editImage, "edit-todo", todo);
+        const delBtn = createImageBtn(deleteImage, "del-todo", todo);
+        btnsDiv.appendChild(editBtn);
+        btnsDiv.appendChild(delBtn);
+        return btnsDiv;
+    }
+
+
+    function createImageBtn(src, btnDescription, todo) {
+        const btn = document.createElement("Button");
+        btn.className = btnDescription;
+        btn.dataset.todo_id = todo.id;
+        const image = document.createElement("img");
+        image.src = src;
+        image.width = "20";
+        image.height = "20";
+        btn.appendChild(image);
+        
+        return btn;
+    }
+
+
+    function bindTaskBtns(todo){
+        const btns = document.querySelectorAll(".todo-btns button");
+        btns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                if (btn.className === "edit-todo"){
+
+                }
+                else if (btn.className === "del-todo"){
+                    currentProject.removeTodo(btn.dataset.todo_id);
+                    app.updateProjects(currentProject);
+                    displayProjectSite(currentProject);
+                }
+                console.log(btn.className);
+            });
+        });
     }
 
 
