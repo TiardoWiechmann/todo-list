@@ -7,6 +7,9 @@ import editImage from "./images/file-edit.svg";
 
 export default function displayContent() {
     let currentProject;
+    let currentTodo;
+    const todoDialog = document.querySelector(".new-todo");
+    const todoDialogCloseBtn = document.querySelector(".new-todo button");
     const app = appLogic(); 
     displayDefaultProject();
     newProject();
@@ -116,27 +119,15 @@ export default function displayContent() {
     // Add task to current project
     function addTask() {
         const addTaskBtn = document.querySelector(".add-todo");
-        const dialog = document.querySelector(".new-todo");
         addTaskBtn.addEventListener("click", () => {
-            dialog.showModal();
+            todoDialog.showModal();
         });
-
-        const dialogCloseBtn = document.querySelector(".new-todo button");
-        dialogCloseBtn.addEventListener("click", submitNewTask);
-
-        function submitNewTask(e){
-            createTask();
-            displayProjectSite();
-            dialog.close();
-            e.stopImmediatePropagation();
-        }
     }
 
 
     function updateTask(todo) {
-        const dialog = document.querySelector(".new-todo");
-        const dialogCloseBtn = document.querySelector(".new-todo button");
-        dialogCloseBtn.textContent = "Edit Todo";
+        currentTodo = todo;
+        todoDialogCloseBtn.textContent = "Edit Todo";
         const propertyNames = Todo.getPropertyNames();
 
         // Current Todo is default
@@ -144,27 +135,41 @@ export default function displayContent() {
             const input = document.getElementById(prop);
 
             if (prop === "description"){
-                input.textContent = todo[prop];
+                input.textContent = currentTodo[prop];
             }
             else if (prop === "priority") {
-                input.selectedOptions[0].value = todo[prop];
+                input.selectedOptions[0].value = currentTodo[prop];
             }
             else {
-                input.value = todo[prop];
+                input.value = currentTodo[prop];
             }
         }
 
-        dialog.showModal();
+        todoDialog.showModal();
+    }
 
-        dialogCloseBtn.addEventListener("click", submitUpdatedTask);
 
-        function submitUpdatedTask(e) {
-            createTask(true, todo);
-            displayProjectSite();
-            dialog.close();
-            dialogCloseBtn.textContent = "Add Todo";
-            e.stopImmediatePropagation();
+    todoDialogCloseBtn.addEventListener("click", () => {
+        if (todoDialogCloseBtn.textContent === "Add Todo"){
+            submitNewTask();
         }
+        else {
+            submitUpdatedTask();
+        }
+    });
+
+
+    function submitNewTask(){
+        createTask();
+        displayProjectSite();
+        todoDialog.close();
+    }
+
+    function submitUpdatedTask() {
+        createTask(true, currentTodo);
+        displayProjectSite();
+        todoDialog.close();
+        todoDialogCloseBtn.textContent = "Add Todo";
     }
 
 
@@ -196,6 +201,7 @@ export default function displayContent() {
         });
     }
     
+
     function displayTaskHeading(todo, className) {
         const container = document.createElement("div");
         container.className = "todo-heading";

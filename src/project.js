@@ -45,7 +45,9 @@ export default class Project {
                 newTodo.id = id;
                 copy.push(newTodo);
             }
-            copy.push(item);
+            else {
+                copy.push(item);
+            }
         });
         this.#todos = copy;
     }
