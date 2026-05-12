@@ -38,23 +38,6 @@ export default function displayContent() {
         });
     }
 
-    // Add task to current project
-    function addTask() {
-        const addTaskBtn = document.querySelector(".add-task");
-        const dialog = document.querySelector(".new-task")
-
-        addTaskBtn.addEventListener("click", () => {
-            dialog.showModal();
-        });
-
-        const dialogCloseBtn = document.querySelector(".new-task button");
-        dialogCloseBtn.addEventListener("click", () => {
-            createTask();
-            displayProjectSite();
-            dialog.close();
-        });
-    }
-
 
     function createProject(project){
         app.add(project);
@@ -84,7 +67,7 @@ export default function displayContent() {
         const div = document.querySelector(".project");
         const heading = document.querySelector(".project h2");
         heading.textContent = currentProject.name;
-        displayTasks();
+        displayAllTasks();
     }
 
 
@@ -93,7 +76,7 @@ export default function displayContent() {
         const projectBtns = document.querySelectorAll(".projects-container button");
         projectBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
-                currentProject = getProjectByName(btn.textContent);
+                currentProject = app.getProjectByName(btn.textContent);
                 console.log(currentProject);
                 console.log(btn.textContent)
                 displayProjectSite();
@@ -102,17 +85,90 @@ export default function displayContent() {
     }
 
 
-    function getProjectByName(projectName) {
-        const projects = app.getAllProjects();
-        for (let project of projects) {
-            if (project.name === projectName){
-                return project;
+    function createTask(update=false, todo=null) { 
+        const propertyNames = Todo.getPropertyNames();
+
+        let properties = {};
+        for (let prop of propertyNames) {
+            const input = document.getElementById(prop);
+
+            if (prop === "description"){
+                properties[prop] = input.textContent;
             }
+            else if (prop === "priority") {
+                properties[prop] = input.selectedOptions[0].value;
+            }
+            else {
+                properties[prop] = input.value;
+            }
+        }
+                 
+        let newTodo = new Todo(properties.title, properties.description, properties.dueDate , properties.priority);
+        if (update === true){
+            currentProject.updateTodo(todo.id, newTodo);
+        }
+        else {
+            currentProject.addTodo(newTodo);
         }
     }
 
 
-    function displayTasks() {
+    // Add task to current project
+    function addTask() {
+        const addTaskBtn = document.querySelector(".add-todo");
+        const dialog = document.querySelector(".new-todo");
+        addTaskBtn.addEventListener("click", () => {
+            dialog.showModal();
+        });
+
+        const dialogCloseBtn = document.querySelector(".new-todo button");
+        dialogCloseBtn.addEventListener("click", submitNewTask);
+
+        function submitNewTask(e){
+            createTask();
+            displayProjectSite();
+            dialog.close();
+            e.stopImmediatePropagation();
+        }
+    }
+
+
+    function updateTask(todo) {
+        const dialog = document.querySelector(".new-todo");
+        const dialogCloseBtn = document.querySelector(".new-todo button");
+        dialogCloseBtn.textContent = "Edit Todo";
+        const propertyNames = Todo.getPropertyNames();
+
+        // Current Todo is default
+        for (let prop of propertyNames) {
+            const input = document.getElementById(prop);
+
+            if (prop === "description"){
+                input.textContent = todo[prop];
+            }
+            else if (prop === "priority") {
+                input.selectedOptions[0].value = todo[prop];
+            }
+            else {
+                input.value = todo[prop];
+            }
+        }
+
+        dialog.showModal();
+
+        dialogCloseBtn.addEventListener("click", submitUpdatedTask);
+
+        function submitUpdatedTask(e) {
+            createTask(true, todo);
+            displayProjectSite();
+            dialog.close();
+            dialogCloseBtn.textContent = "Add Todo";
+            e.stopImmediatePropagation();
+        }
+    }
+
+
+    function displayAllTasks() {
         const todos = currentProject.todos;
         const todosContainer = document.querySelector(".todos");
         todosContainer.textContent = "";
@@ -139,30 +195,6 @@ export default function displayContent() {
             bindTaskBtns(todo);
         });
     }
-
-
-    function createTask() { 
-        const propertyNames = Todo.getPropertyNames();
-
-        let properties = {};
-        for (let prop of propertyNames) {
-            const input = document.getElementById(prop);
-
-            if (prop === "description"){
-                properties[prop] = input.textContent;
-            }
-            else if (prop === "priority") {
-                properties[prop] = input.selectedOptions[0].value;
-            }
-            else {
-                properties[prop] = input.value;
-            }
-        }
-                 
-        let todo = new Todo(properties.title, properties.description, properties.dueDate , properties.priority);
-        currentProject.addTodo(todo);
-    }
-
     
     function displayTaskHeading(todo, className) {
         const container = document.createElement("div");
@@ -207,14 +239,13 @@ export default function displayContent() {
         btns.forEach((btn) => {
             btn.addEventListener("click", () => {
                 if (btn.className === "edit-todo"){
-
+                    updateTask(todo);
                 }
                 else if (btn.className === "del-todo"){
                     currentProject.removeTodo(btn.dataset.todo_id);
                     app.updateProjects(currentProject);
                     displayProjectSite(currentProject);
                 }
-                console.log(btn.className);
             });
         });
     }

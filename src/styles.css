@@ -96,14 +96,14 @@ dialog button:hover {
     height: 100%;
 }
 
-.add-task {
+.add-todo {
     padding: 10px 20px;
     border: none;
     border-radius: 10px;
     background-color: aqua;
 }
 
-.add-task:hover {
+.add-todo:hover {
     transform: scale(1.05);
 }
 

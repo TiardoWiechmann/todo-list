@@ -45,7 +45,15 @@ export function appLogic() {
         });
     }
 
-    return { add, deleteProject, getProjectById, getAllProjects, createDefaultProject, updateProjects };
+    function getProjectByName(projectName) {
+        for (let project of projects) {
+            if (project.name === projectName){
+                return project;
+            }
+        }
+    }
+
+    return { add, deleteProject, getProjectById, getAllProjects, createDefaultProject, updateProjects, getProjectByName };
 }
 
 

@@ -37,6 +37,18 @@ export default class Project {
         });
         this.#todos = copy;
     }
+
+    updateTodo(id, newTodo) {
+        let copy = [];
+        this.#todos.forEach(item => {
+            if (item.id === id) {
+                newTodo.id = id;
+                copy.push(newTodo);
+            }
+            copy.push(item);
+        });
+        this.#todos = copy;
+    }
 }
 
 
