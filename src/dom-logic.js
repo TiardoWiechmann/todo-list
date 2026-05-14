@@ -8,6 +8,7 @@ import editImage from "./images/file-edit.svg";
 export default function displayContent() {
     let currentProject;
     let currentTodo;
+    const propertyNames = Todo.getPropertyNames();
     const todoDialog = document.querySelector(".new-todo");
     const todoDialogCloseBtn = document.querySelector(".new-todo button");
     const app = appLogic(); 
@@ -128,7 +129,6 @@ export default function displayContent() {
     function updateTask(todo) {
         currentTodo = todo;
         todoDialogCloseBtn.textContent = "Edit Todo";
-        const propertyNames = Todo.getPropertyNames();
 
         // Current Todo is default
         for (let prop of propertyNames) {
@@ -149,13 +149,55 @@ export default function displayContent() {
     }
 
 
+    function taskHasTitle(){
+        const title = document.getElementById("title");
+        const invalidInputDiv = document.querySelector(".invalid-input");
+        const errMessage = document.createElement("div");
+        if(!title.textContent){
+            errMessage.textContent = "You have to enter a title to create a todo.";
+            invalidInputDiv.appendChild(errMessage);
+            // Add timer and background color
+            return false;
+        }
+        return true;
+
+    }
+
+
+    function resetDialogValues(){
+        for (let prop of propertyNames) {
+            const input = document.getElementById(prop);
+
+            switch (prop){
+                case "title":
+                    input.value = "";
+                    break;
+                case "description":
+                    input.textContent = "";
+                    break;
+                case "dueDate":
+                    input.value = "";
+                    break;
+                case "priority":
+                    input.value = "high";
+                    break;
+            }
+        }
+
+    }
+
+
     todoDialogCloseBtn.addEventListener("click", () => {
-        if (todoDialogCloseBtn.textContent === "Add Todo"){
+        if(!taskHasTitle()){
+            todoDialog.close();
+        }
+        else if (todoDialogCloseBtn.textContent === "Add Todo"){
             submitNewTask();
         }
         else {
             submitUpdatedTask();
         }
+        resetDialogValues();
     });
 
 

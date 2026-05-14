@@ -5,7 +5,6 @@
 
 body {
     height: 100vh;
-
 }
 
 #container{
@@ -178,4 +177,13 @@ select {
 
 .del-todo:hover {
     background-color: rgba(255, 0, 0);
+}
+
+.invalid-input {
+    position: absolute;
+    top: 300px;
+    left: 250px;
+    background-color: orange;
+    border-radius: 10px;
+    padding: 10px;
 }
