@@ -237,6 +237,17 @@ export default function displayContent() {
                     todoDiv.appendChild(TodoHeading)
                 }
             }
+            switch(todo.priority) {
+                case ("high"):
+                    todoDiv.style.backgroundColor = "rgb(248, 88, 88)";
+                    break;
+                case ("medium"):
+                    todoDiv.style.backgroundColor = "rgb(250, 250, 94)";
+                    break;
+                case ("low"):
+                    todoDiv.style.backgroundColor = "rgb(101, 231, 101)";
+                    break;
+            }
             todosContainer.appendChild(todoDiv);
             bindTodoEditDelBtns(todo);
         });

@@ -14,7 +14,6 @@ export default class Todo {
     }
 
 
-    // Todo: Add errorhandling
     set id(id) {
         this.#id = id;
     }
