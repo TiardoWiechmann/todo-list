@@ -30,32 +30,6 @@
                 <div class="project-heading">
                     <button class="add-todo">Add Todo</button>
                     <h2>Project Name</h2>
-                    <dialog closedby="any" class="new-todo">
-                        <form>
-                            <div class="title-div">
-                                <label for="title">Title: </label>
-                                <input type="text" id="title" maxlength="20">
-                            </div>
-                            <div class="description-div">
-                                <label for="description">Description: </label>
-                                <textarea id="description" rows="4" maxlength="150">
-                                </textarea>
-                            </div>
-                            <div class="due-date-div">
-                                <label for="dueDate">Due date: </label>
-                                <input type="date" id="dueDate" min="2017-04-01">
-                            </div>
-                            <div class="priority-div">
-                                <label for="priority">Priority: </label>
-                                <select id="priority">
-                                    <option value="low">Low (green)</option>
-                                    <option value="medium">Medium (yellow)</option>
-                                    <option value="high" selected>High (red)</option>
-                                </select>
-                            </div>
-                            <button type="button">Add Todo</button>
-                        </form>
-                    </dialog>
                 </div>
                 <div class="todos"></div>
                 <div class="edit-delete-project"></div>
@@ -64,6 +38,40 @@
         </div>
 
     </div>
-    
+    <dialog closedby="any" class="project-dialog">
+        <form>
+            <div class="project-title">
+                <label for="project-name">Project Name: </label>
+                <input type="text" maxlength="20" id=project-name placeholder="e.g. Software Project">
+            </div>
+            <button type="button">Create Project</button>
+        </form>
+    </dialog>
+    <dialog closedby="any" class="new-todo">
+        <form>
+            <div class="title-div">
+                <label for="title">Title: </label>
+                <input type="text" id="title" maxlength="20">
+            </div>
+            <div class="description-div">
+                <label for="description">Description: </label>
+                <textarea id="description" rows="4" maxlength="150">
+                </textarea>
+            </div>
+            <div class="due-date-div">
+                <label for="dueDate">Due date: </label>
+                <input type="date" id="dueDate" min="2017-04-01">
+            </div>
+            <div class="priority-div">
+                <label for="priority">Priority: </label>
+                <select id="priority">
+                    <option value="low">Low (green)</option>
+                    <option value="medium">Medium (yellow)</option>
+                    <option value="high" selected>High (red)</option>
+                </select>
+            </div>
+            <button type="button">Add Todo</button>
+        </form>
+    </dialog>
 </body>
 </html>
