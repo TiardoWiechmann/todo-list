@@ -36,8 +36,13 @@ export default function displayContent() {
 
         dialogExit.addEventListener("click", () => {
             const projectName = document.getElementById("pname").value;
-            const project = new Project(projectName);
-            createProject(project);
+            if(!projectName){
+                alert("Your project has to have a name.")
+            }
+            else{
+                const project = new Project(projectName);
+                createProject(project);
+            }
             dialog.close();
         });
     }
@@ -81,8 +86,6 @@ export default function displayContent() {
         projectBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
                 currentProject = app.getProjectByName(btn.textContent);
-                console.log(currentProject);
-                console.log(btn.textContent)
                 displayProjectSite();
             });
         });
@@ -91,13 +94,12 @@ export default function displayContent() {
 
     function createTask(update=false, todo=null) { 
         const propertyNames = Todo.getPropertyNames();
-
         let properties = {};
         for (let prop of propertyNames) {
             const input = document.getElementById(prop);
 
             if (prop === "description"){
-                properties[prop] = input.textContent;
+                properties[prop] = input.value;
             }
             else if (prop === "priority") {
                 properties[prop] = input.selectedOptions[0].value;
@@ -135,7 +137,7 @@ export default function displayContent() {
             const input = document.getElementById(prop);
 
             if (prop === "description"){
-                input.textContent = currentTodo[prop];
+                input.value = currentTodo[prop];
             }
             else if (prop === "priority") {
                 input.selectedOptions[0].value = currentTodo[prop];
@@ -144,36 +146,28 @@ export default function displayContent() {
                 input.value = currentTodo[prop];
             }
         }
-
         todoDialog.showModal();
     }
 
 
     function taskHasTitle(){
         const title = document.getElementById("title");
-        const invalidInputDiv = document.querySelector(".invalid-input");
-        const errMessage = document.createElement("div");
-        if(!title.textContent){
-            errMessage.textContent = "You have to enter a title to create a todo.";
-            invalidInputDiv.appendChild(errMessage);
-            // Add timer and background color
+        if(!title.value){
             return false;
         }
         return true;
-
     }
 
 
     function resetDialogValues(){
         for (let prop of propertyNames) {
             const input = document.getElementById(prop);
-
             switch (prop){
                 case "title":
                     input.value = "";
                     break;
                 case "description":
-                    input.textContent = "";
+                    input.value = "";
                     break;
                 case "dueDate":
                     input.value = "";
@@ -183,13 +177,13 @@ export default function displayContent() {
                     break;
             }
         }
-
     }
 
 
     todoDialogCloseBtn.addEventListener("click", () => {
         if(!taskHasTitle()){
             todoDialog.close();
+            alert("You have to enter a title to create a todo.");
         }
         else if (todoDialogCloseBtn.textContent === "Add Todo"){
             submitNewTask();
