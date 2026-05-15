@@ -183,7 +183,7 @@ select {
 
 .edit-project-name,
 .edit-todo {
-    background-color: darkgray;
+    background-color: gray;
 }
 
 .add-todo:hover {
@@ -197,7 +197,7 @@ select {
 
 .edit-project-name:hover,
 .edit-todo:hover {
-    background-color: gray;
+    background-color: darkgray;
 }
 
 .del-project:hover,
