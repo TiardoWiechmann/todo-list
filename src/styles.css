@@ -153,14 +153,12 @@ select {
     right: 0;
 }
 
-.del-project {
-    margin-left: 10px;
-}
-
 .edit-delete-project button {
     padding: 5px;
     border-radius: 5px;
     border: none;
+    margin-right: 5px;
+    margin-top: 5px
 }
 
 .todo-btns {
@@ -177,9 +175,6 @@ select {
 .del-project,
 .del-todo {
     background-color: rgba(255, 72, 0);
-}
-
-.del-todo {
     margin-left: 5px;
 }
 

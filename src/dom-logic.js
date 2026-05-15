@@ -10,8 +10,8 @@ export default function displayContent() {
     let currentTodo;
     
     const createProjectBtn = document.querySelector(".create-project-btn");
-    const projectDialogExit = document.querySelector(".new-project button");
-    const projectDialog = document.querySelector(".new-project")
+    const projectDialogExit = document.querySelector(".project-dialog button");
+    const projectDialog = document.querySelector(".project-dialog")
     const propertyNames = Todo.getPropertyNames();
     const addTodoBtn = document.querySelector(".add-todo");
     const todoDialog = document.querySelector(".new-todo");
@@ -20,6 +20,7 @@ export default function displayContent() {
     const todosContainer = document.querySelector(".todos");
     const project = document.querySelector(".project");
     const heading = document.querySelector(".project h2");
+    const projectNameInput = document.getElementById("project-name");
     const title = document.getElementById("title");
     const projectEditDelContainer = document.querySelector(".edit-delete-project");
     const app = appLogic(); 
@@ -27,7 +28,8 @@ export default function displayContent() {
     displayDefaultProject();
     bindProjectBtns();
     bindTodoBtns();
-
+    bindProjectEditDelBtns();
+    
 
     function displayDefaultProject() {
         const defaultProject = app.createDefaultProject();
@@ -43,7 +45,7 @@ export default function displayContent() {
         });
 
         projectDialogExit.addEventListener("click", () => {
-            const projectName = document.getElementById("pname").value;
+            const projectName = projectNameInput.value;
             if(!projectName){
                 alert("Your project has to have a name.")
             }
@@ -291,21 +293,26 @@ export default function displayContent() {
     }
 
 
-    // function bindProjectEditDelBtns(todo){
-    //     const btns = document.querySelectorAll(".todo-btns button");
-    //     btns.forEach((btn) => {
-    //         btn.addEventListener("click", () => {
-    //             if (btn.className === "edit-todo"){
-    //                 updateTodo(todo);
-    //             }
-    //             else if (btn.className === "del-todo"){
-    //                 currentProject.removeTodo(btn.dataset.todo_id);
-    //                 app.updateProjects(currentProject);
-    //                 displayProjectSite(currentProject);
-    //             }
-    //         });
-    //     });
-    // }
+    function bindProjectEditDelBtns(){
+        const btns = document.querySelectorAll(".edit-delete-project button");
+        btns.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                if (btn.className === "edit-project"){
+                    updateTodo(todo);
+                }
+                else if (btn.className === "del-project"){
+                    if(currentProject.name === "My Project"){
+                        alert("You can't delete the first project.");
+                    }
+                    else{
+                        app.deleteProject(currentProject);
+                        displayDefaultProject();
+                        projectNameInput.value = "";
+                    }
+                }
+            });
+        });
+    }
 
 
     function makeTitle(word){
