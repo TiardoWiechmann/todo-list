@@ -148,6 +148,21 @@ select {
     width: 60%;
 }
 
+.edit-delete-project {
+    position: absolute;
+    right: 0;
+}
+
+.del-project {
+    margin-left: 10px;
+}
+
+.edit-delete-project button {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
 .todo-btns {
     display: flex;
     align-self: flex-end;
@@ -158,11 +173,17 @@ select {
     padding: 5px;
     border-radius: 5px;
 }
+
+.del-project,
 .del-todo {
     background-color: rgba(255, 72, 0);
+}
+
+.del-todo {
     margin-left: 5px;
 }
 
+.edit-project,
 .edit-todo {
     background-color: darkgray;
 }
@@ -176,10 +197,12 @@ select {
     background-color: rgb(0, 132, 255);
 }
 
+.edit-project:hover,
 .edit-todo:hover {
     background-color: gray;
 }
 
+.del-project:hover,
 .del-todo:hover {
     background-color: rgba(255, 0, 0);
 }

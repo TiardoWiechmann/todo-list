@@ -21,6 +21,7 @@ export default function displayContent() {
     const project = document.querySelector(".project");
     const heading = document.querySelector(".project h2");
     const title = document.getElementById("title");
+    const projectEditDelContainer = document.querySelector(".edit-delete-project");
     const app = appLogic(); 
 
     displayDefaultProject();
@@ -78,6 +79,14 @@ export default function displayContent() {
 
     function displayProjectSite() {
         heading.textContent = currentProject.name;
+        let editBtn = document.querySelector(".edit-project");
+        let delBtn = document.querySelector("del-project");
+        if (!editBtn){
+            editBtn = createImageBtn(editImage, "edit-project");
+            delBtn = createImageBtn(deleteImage, "del-project");
+            projectEditDelContainer.appendChild(editBtn);
+            projectEditDelContainer.appendChild(delBtn);
+        }
         displayAllTodos();
     }
 
@@ -250,10 +259,12 @@ export default function displayContent() {
     }
 
 
-    function createImageBtn(src, btnDescription, todo) {
+    function createImageBtn(src, btnDescription, todo=0) {
         const btn = document.createElement("Button");
         btn.className = btnDescription;
-        btn.dataset.todo_id = todo.id;
+        if(todo !== 0){
+            btn.dataset.todo_id = todo.id;
+        }
         const image = document.createElement("img");
         image.src = src;
         image.width = "20";
@@ -278,6 +289,23 @@ export default function displayContent() {
             });
         });
     }
+
+
+    // function bindProjectEditDelBtns(todo){
+    //     const btns = document.querySelectorAll(".todo-btns button");
+    //     btns.forEach((btn) => {
+    //         btn.addEventListener("click", () => {
+    //             if (btn.className === "edit-todo"){
+    //                 updateTodo(todo);
+    //             }
+    //             else if (btn.className === "del-todo"){
+    //                 currentProject.removeTodo(btn.dataset.todo_id);
+    //                 app.updateProjects(currentProject);
+    //                 displayProjectSite(currentProject);
+    //             }
+    //         });
+    //     });
+    // }
 
 
     function makeTitle(word){
