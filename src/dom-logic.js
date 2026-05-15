@@ -46,7 +46,13 @@ export default function displayContent() {
 
         projectDialogExit.addEventListener("click", () => {
             const projectName = projectNameInput.value;
-            if(!projectName){
+            if(projectDialogExit.textContent === "Change Name"){
+                currentProject.name = projectName;
+                app.updateProjects(currentProject);
+                displayAllProjectsInSidebar();
+                displayProjectSite()
+            }
+            else if(!projectName){
                 alert("Your project has to have a name.")
             }
             else{
@@ -81,10 +87,10 @@ export default function displayContent() {
 
     function displayProjectSite() {
         heading.textContent = currentProject.name;
-        let editBtn = document.querySelector(".edit-project");
+        let editBtn = document.querySelector(".edit-project-name");
         let delBtn = document.querySelector("del-project");
         if (!editBtn){
-            editBtn = createImageBtn(editImage, "edit-project");
+            editBtn = createImageBtn(editImage, "edit-project-name");
             delBtn = createImageBtn(deleteImage, "del-project");
             projectEditDelContainer.appendChild(editBtn);
             projectEditDelContainer.appendChild(delBtn);
@@ -297,11 +303,13 @@ export default function displayContent() {
         const btns = document.querySelectorAll(".edit-delete-project button");
         btns.forEach((btn) => {
             btn.addEventListener("click", () => {
-                if (btn.className === "edit-project"){
-                    updateTodo(todo);
+                const firstProject = document.querySelector(".projects-sidebar-container :first-child");
+                if (btn.className === "edit-project-name"){
+                    projectDialog.showModal();
+                    projectDialogExit.textContent = "Change Name";
                 }
                 else if (btn.className === "del-project"){
-                    if(currentProject.name === "My Project"){
+                    if(currentProject.name === firstProject.textContent){
                         alert("You can't delete the first project.");
                     }
                     else{
