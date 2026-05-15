@@ -8,15 +8,26 @@ import editImage from "./images/file-edit.svg";
 export default function displayContent() {
     let currentProject;
     let currentTodo;
+    
+    const createProjectBtn = document.querySelector(".create-project-btn");
+    const projectDialogExit = document.querySelector(".new-project button");
+    const projectDialog = document.querySelector(".new-project")
     const propertyNames = Todo.getPropertyNames();
+    const addTodoBtn = document.querySelector(".add-todo");
     const todoDialog = document.querySelector(".new-todo");
     const todoDialogCloseBtn = document.querySelector(".new-todo button");
+    const projectsSidebarContainer = document.querySelector(".projects-sidebar-container");
+    const todosContainer = document.querySelector(".todos");
+    const project = document.querySelector(".project");
+    const heading = document.querySelector(".project h2");
+    const title = document.getElementById("title");
     const app = appLogic(); 
-    displayDefaultProject();
-    newProject();
-    addTask();
 
-    // At the beginning exists a default project
+    displayDefaultProject();
+    bindProjectBtns();
+    bindTodoBtns();
+
+
     function displayDefaultProject() {
         const defaultProject = app.createDefaultProject();
         createProject(defaultProject);
@@ -24,17 +35,13 @@ export default function displayContent() {
     }
 
 
-    // New project gets created when create-project button is clicked
-    function newProject() {
-        const createProjectBtn = document.querySelector(".create-project-btn");
-        const dialogExit = document.querySelector(".new-project button");
-        const dialog = document.querySelector(".new-project")
-
+    // New project gets created when createProjectButton is clicked
+    function bindProjectBtns() {
         createProjectBtn.addEventListener("click", () => {
-            dialog.showModal();
+            projectDialog.showModal();
         });
 
-        dialogExit.addEventListener("click", () => {
+        projectDialogExit.addEventListener("click", () => {
             const projectName = document.getElementById("pname").value;
             if(!projectName){
                 alert("Your project has to have a name.")
@@ -43,7 +50,7 @@ export default function displayContent() {
                 const project = new Project(projectName);
                 createProject(project);
             }
-            dialog.close();
+            projectDialog.close();
         });
     }
 
@@ -58,31 +65,25 @@ export default function displayContent() {
 
     function displayAllProjectsInSidebar() {
         const projects = app.getAllProjects();
-        const projectsContainer = document.querySelector(".projects-container");
-        projectsContainer.textContent = ""; 
-
+        projectsSidebarContainer.textContent = ""; 
         projects.forEach(project => {
             const projectBtn = document.createElement("button");
             projectBtn.dataset.name = project.name;
             projectBtn.textContent = project.name;
-            projectsContainer.appendChild(projectBtn);
+            projectsSidebarContainer.appendChild(projectBtn);
         })
-
-        openProject();
+        openProjectFromSidebar();
     }
 
 
     function displayProjectSite() {
-        const div = document.querySelector(".project");
-        const heading = document.querySelector(".project h2");
         heading.textContent = currentProject.name;
-        displayAllTasks();
+        displayAllTodos();
     }
 
 
-    // When project is clicked the project should be displayed
-    function openProject(){
-        const projectBtns = document.querySelectorAll(".projects-container button");
+    function openProjectFromSidebar(){
+        const projectBtns = document.querySelectorAll(".projects-sidebar-container button");
         projectBtns.forEach((btn) => {
             btn.addEventListener("click", () => {
                 currentProject = app.getProjectByName(btn.textContent);
@@ -92,12 +93,32 @@ export default function displayContent() {
     }
 
 
-    function createTask(update=false, todo=null) { 
-        const propertyNames = Todo.getPropertyNames();
+    function bindTodoBtns(){
+        addTodoBtn.addEventListener("click", () => {
+            todoDialog.showModal();
+        });
+
+        todoDialogCloseBtn.addEventListener("click", () => {
+            if(!todoHasTitle()){
+                todoDialog.close();
+                alert("You have to enter a title to create a todo.");
+            }
+            else if (todoDialogCloseBtn.textContent === "Add Todo"){
+                submitNewTodo();
+            }
+            else {
+                submitUpdatedTodo();
+            }
+            resetDialogValues();
+        });
+    }
+
+    
+    // If update=true -> create updated todo, else create new todo
+    function createTodo(update=false, todo=null) { 
         let properties = {};
         for (let prop of propertyNames) {
             const input = document.getElementById(prop);
-
             if (prop === "description"){
                 properties[prop] = input.value;
             }
@@ -107,8 +128,7 @@ export default function displayContent() {
             else {
                 properties[prop] = input.value;
             }
-        }
-                 
+        }      
         let newTodo = new Todo(properties.title, properties.description, properties.dueDate , properties.priority);
         if (update === true){
             currentProject.updateTodo(todo.id, newTodo);
@@ -119,23 +139,11 @@ export default function displayContent() {
     }
 
 
-    // Add task to current project
-    function addTask() {
-        const addTaskBtn = document.querySelector(".add-todo");
-        addTaskBtn.addEventListener("click", () => {
-            todoDialog.showModal();
-        });
-    }
-
-
-    function updateTask(todo) {
+    function updateTodo(todo) {
         currentTodo = todo;
         todoDialogCloseBtn.textContent = "Edit Todo";
-
-        // Current Todo is default
         for (let prop of propertyNames) {
             const input = document.getElementById(prop);
-
             if (prop === "description"){
                 input.value = currentTodo[prop];
             }
@@ -150,8 +158,7 @@ export default function displayContent() {
     }
 
 
-    function taskHasTitle(){
-        const title = document.getElementById("title");
+    function todoHasTitle(){
         if(!title.value){
             return false;
         }
@@ -180,45 +187,27 @@ export default function displayContent() {
     }
 
 
-    todoDialogCloseBtn.addEventListener("click", () => {
-        if(!taskHasTitle()){
-            todoDialog.close();
-            alert("You have to enter a title to create a todo.");
-        }
-        else if (todoDialogCloseBtn.textContent === "Add Todo"){
-            submitNewTask();
-        }
-        else {
-            submitUpdatedTask();
-        }
-        resetDialogValues();
-    });
-
-
-    function submitNewTask(){
-        createTask();
+    function submitNewTodo(){
+        createTodo();
         displayProjectSite();
         todoDialog.close();
     }
 
-    function submitUpdatedTask() {
-        createTask(true, currentTodo);
+
+    function submitUpdatedTodo() {
+        createTodo(true, currentTodo);
         displayProjectSite();
         todoDialog.close();
         todoDialogCloseBtn.textContent = "Add Todo";
     }
 
 
-    function displayAllTasks() {
+    function displayAllTodos() {
         const todos = currentProject.todos;
-        const todosContainer = document.querySelector(".todos");
         todosContainer.textContent = "";
-        const propertyNames = Todo.getPropertyNames()
-
         todos.forEach(todo => {
             const todoDiv = document.createElement("div");
             todoDiv.className = "todo";
-            
             for(let prop of propertyNames) {
                 if(prop !== "title"){
                     const propText = document.createElement("div");
@@ -226,32 +215,31 @@ export default function displayContent() {
                     todoDiv.appendChild(propText);
                 }
                 else {
-                    const title = todo[prop];
                     const className = "todo-title";
-                    const taskHeading = displayTaskHeading(todo, className)
-                    todoDiv.appendChild(taskHeading)
+                    const TodoHeading = displayTodoHeading(todo, className)
+                    todoDiv.appendChild(TodoHeading)
                 }
             }
             todosContainer.appendChild(todoDiv);
-            bindTaskBtns(todo);
+            bindTodoEditDelBtns(todo);
         });
     }
     
 
-    function displayTaskHeading(todo, className) {
+    function displayTodoHeading(todo, className) {
         const container = document.createElement("div");
         container.className = "todo-heading";
         const heading = document.createElement("div");
         heading.textContent = todo.title;
         heading.className = className;
-        const btns = generateTaskBtns(todo);
+        const btns = createTodoBtns(todo);
         container.appendChild(heading);
         container.appendChild(btns);
         return container;
     }
 
 
-    function generateTaskBtns(todo) {
+    function createTodoBtns(todo) {
         const btnsDiv = document.createElement("div");
         btnsDiv.className = "todo-btns";
         const editBtn = createImageBtn(editImage, "edit-todo", todo);
@@ -271,17 +259,16 @@ export default function displayContent() {
         image.width = "20";
         image.height = "20";
         btn.appendChild(image);
-        
         return btn;
     }
 
 
-    function bindTaskBtns(todo){
+    function bindTodoEditDelBtns(todo){
         const btns = document.querySelectorAll(".todo-btns button");
         btns.forEach((btn) => {
             btn.addEventListener("click", () => {
                 if (btn.className === "edit-todo"){
-                    updateTask(todo);
+                    updateTodo(todo);
                 }
                 else if (btn.className === "del-todo"){
                     currentProject.removeTodo(btn.dataset.todo_id);
@@ -296,5 +283,4 @@ export default function displayContent() {
     function makeTitle(word){
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
-
 }
