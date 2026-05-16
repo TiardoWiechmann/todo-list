@@ -309,7 +309,7 @@ export default function displayContent() {
         });
     }
 
-
+    
     function bindProjectEditDelBtns(){
         const btns = document.querySelectorAll(".edit-delete-project button");
         btns.forEach((btn) => {
