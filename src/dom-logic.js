@@ -26,7 +26,6 @@ export default function displayContent() {
     const projectEditDelContainer = document.querySelector(".edit-delete-project");
     const app = appLogic(); 
 
-    loadSavedData();
     displayDefaultProject();
     bindProjectBtns();
     bindTodoBtns();
@@ -68,7 +67,6 @@ export default function displayContent() {
 
     function createProject(project){
         app.add(project);
-        saveProject(app.getAllProjects());
         displayAllProjectsInSidebar();
         currentProject = project;
         displayProjectSite();
@@ -89,7 +87,6 @@ export default function displayContent() {
 
 
     function displayProjectSite() {
-        // console.log(currentProject);
         heading.textContent = currentProject.name;
         let editBtn = document.querySelector(".edit-project-name");
         let delBtn = document.querySelector("del-project");
