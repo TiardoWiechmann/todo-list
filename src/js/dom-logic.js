@@ -1,8 +1,8 @@
 import Project from "./project.js";
 import { appLogic } from "./application-logic.js";
 import Todo from "./todo.js";
-import deleteImage from "./images/delete.svg";
-import editImage from "./images/file-edit.svg";
+import deleteImage from "../images/delete.svg";
+import editImage from "../images/file-edit.svg";
 import { saveProject, loadSavedData } from "./storage.js";
 
 
