@@ -53,6 +53,13 @@ export function appLogic() {
         }
     }
 
+    function getAllProjectsAsJson(){
+        let projectsAsJson = {};
+        for (let project of projects){
+             
+        }
+    }
+
     return { add, deleteProject, getProjectById, getAllProjects, createDefaultProject, updateProjects, getProjectByName };
 }
 
